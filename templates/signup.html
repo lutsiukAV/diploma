@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block title %}Sign up{% endblock %}
+{% block header %}Welcome to online learning system! Let us sign up{% endblock %}
+{% block left %}<p>In order to start use the system you should to sign up! It will be very interesting!</p>{% endblock %}
+{% block central %}
+    {% if not message is None %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+    {% endif %}
+    <form action="http://127.0.0.1:8000/signup/" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="email" placeholder="Enter your email example@ex.cc" required/>
+            </div>
+        </div>
+        <div class="form-group">
+        <label class="control-label col-sm-2">Username:</label>
+            <div class="col-sm-10">
+                <input type="text" name="username" placeholder="Username" class="form-control" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Password:</label>
+            <div class="col-sm-10">
+                <input type="password" name="password" placeholder="Enter your password" class="form-control" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="date">Date of birth:</label>
+            <div class="col-sm-10">
+                <input type="date" name="birthday" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Your pic:</label>
+            <div class="col-sm-10">
+                <input type="file" name="avatar" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

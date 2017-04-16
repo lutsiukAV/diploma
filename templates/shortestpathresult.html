@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block title %}Shortest path{% endblock %}
+{% block header %}Shortest path of graph{% endblock %}
+{% block central %}
+
+    <div id="mygraph">
+
+    </div>
+    <script>
+    var g = "{{ graph }}";
+    var p = "{{ path }}";
+    g = g.replace(/&quot;/g, "\"");
+    var gr = JSON.parse(g);
+    var pth = JSON.parse(p);
+    function isInPath(e, p) {
+        for(var i = 0; i < p.length; i++){
+            if(e.from == p[i][0] && e.to == p[i][1] || e.from == p[i][1] && e.to == p[i][0]){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    var ways = [];
+    for (var i = 0;i < pth.length - 1; i++){
+        ways.push([pth[i], pth[i+1]]);
+    }
+    var vert = [];
+    for (var i = 0; i < gr.vertices.length; i++) {
+        var v = gr.vertices[i];
+        if(pth[0] == v){
+            vert.push({id: v, label: v.toString(), color: "rgb(255, 0, 0)"});
+        }
+        else if(pth[pth.length - 1] == v){
+             vert.push({id: v, label: v.toString(), color: "rgb(0, 255, 0)"});
+        }
+        else{
+             vert.push({id: v, label: v.toString()});
+        }
+
+    }
+    var nodes = new vis.DataSet(
+        vert
+    );
+
+    var ed = [];
+    for ( var i = 0; i < gr.edges.length; i++) {
+        var edg = gr.edges[i];
+        if(isInPath(edg, ways)){
+            ed.push({from: edg.from, to: edg.to, label: edg.weight, color: 'rgb(255, 0, 0)'});
+        }
+        else{
+            ed.push({from: edg.from, to: edg.to, label: edg.weight, color: 'rgb(0, 0, 255)'});
+        }
+    }
+      // create an array with edges
+      var edges = new vis.DataSet(
+          ed
+      );
+
+      // create a network
+      var container = document.getElementById('mygraph');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+          height: '400px'
+      };
+      var network = new vis.Network(container, data, options);
+    </script>
+{% endblock %}
