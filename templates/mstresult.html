@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+{% block title %}Minimal spanning tree{% endblock %}
+{% block header %}Minimal spanning tree{% endblock %}
+{% block central %}
+    <div id="mygraph">
+
+    </div>
+    <script>
+    var g = "{{ graph }}";
+    var tr = "{{ mst }}";
+    var gr = JSON.parse(g.replace(/&quot;/g, "\""));
+    var tree = JSON.parse(tr);
+     function isInTree(e, t) {
+        for(var i = 0; i < t.length; i++){
+                 if(e.from == t[i][0] && e.to == t[i][1] || e.from == t[i][1] && e.to == t[i][0]){
+                    return true;
+                 }
+
+        }
+        return false;
+    }
+
+
+
+     var vertices = [];
+    for(var i = 0; i < gr.vertices.length; i++){
+        var v = gr.vertices[i];
+        vertices.push({id: v, label: v.toString()});
+    }
+
+    var nodes = new vis.DataSet(
+        vertices
+    );
+
+    var edd = [];
+    for(var i = 0; i < gr.edges.length; i++){
+        var edgs = gr.edges[i];
+        if(isInTree(edgs, tree)){
+            edd.push({from: edgs.from, to: edgs.to, label: edgs.weight, color: "rgb(255, 0, 0)"});
+        }
+        else{
+            edd.push({from: edgs.from, to: edgs.to, label: edgs.weight});
+        }
+    }
+
+
+    var edges = new vis.DataSet(
+          edd
+      );
+
+     // create a network
+      var container = document.getElementById('mygraph');
+      var data = {
+        nodes: nodes,
+        edges: edges
+      };
+      var options = {
+          height: '400px'
+      };
+      var network = new vis.Network(container, data, options);
+
+    </script>
+{% endblock %}

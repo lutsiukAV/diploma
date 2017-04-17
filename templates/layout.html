@@ -19,17 +19,18 @@
     </div>
   {% if not request.user.id is None %}
      <ul class="nav navbar-nav">
-      <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>Home</a></li>
+      <li class="active"><a href="http://127.0.0.1:8000/index"><span class="glyphicon glyphicon-home"></span>Home</a></li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Graphs
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="http://127.0.0.1:8000/shortest">Shortest path</a></li>
-          <li><a href="#">Minimal spanning tree</a></li>
-          <li><a href="#">Connectivity algorithms</a></li>
+          <li><a href="http://127.0.0.1:8000/minimalspanningtree">Minimal spanning tree</a></li>
+          <li><a href="#">Eulerian circuit</a></li>
+            <li><a href="#">Isomorphism</a></li>
         </ul>
       </li>
-      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Trees</a></li>
       <li><a href="#">Page 3</a></li>
     </ul>
   {% endif %}
@@ -52,10 +53,5 @@
         <div class="col-md-2">{% block right %} {% endblock %}</div>
     </div>
 </div>
-<footer class="footer">
-    <div class="container">
-        <p>Copyright 2017</p>
-    </div>
-</footer>
 </body>
 </html>

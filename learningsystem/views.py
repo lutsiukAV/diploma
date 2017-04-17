@@ -10,6 +10,9 @@ from networkx import *
 def layout(request):
     return HttpResponse(render(request, 'layout.html'))
 
+def index(request):
+    return HttpResponse(render(request, 'home.html'))
+
 def signup(request):
     if request.method == 'POST':
         users = User.objects.filter(email=request.POST['email'])
@@ -52,3 +55,17 @@ def findShortestPath(request):
     path = dijkstra_path(g, int(request.POST['FROM']), int(request.POST['TO']))
     gr = json.dumps(graph)
     return HttpResponse(render(request, "shortestpathresult.html", context={'graph': gr, 'path': path}))
+
+def minimalSpanningTree(request):
+    return HttpResponse(render(request,'minimalspanningtree.html'))
+
+def MSTresult(request):
+    graph = json.loads(request.POST['result'])
+    g = Graph()
+    for v in graph["vertices"]:
+        g.add_node(v)
+    for e in graph["edges"]:
+        g.add_edge(e["from"],e["to"], weight = e["weight"])
+    mst = minimum_spanning_tree(g, 'weight')
+    gr = json.dumps(graph)
+    return HttpResponse(render(request, 'mstresult.html', context={'graph': gr, 'mst': [list(elem) for elem in mst.edges()]}))

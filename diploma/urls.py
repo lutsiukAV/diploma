@@ -20,9 +20,12 @@ from learningsystem.views import *
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^layout/',layout),
+    url(r'^index/',index),
     url(r'^signup/',signup),
     url(r'^login/',home),
     url(r'^logout/',out),
     url(r'^shortest/',shortestPath),
     url(r'^shortestpathresult/',findShortestPath),
+    url(r'^minimalspanningtree/',minimalSpanningTree),
+    url(r'^mstresult/',MSTresult),
 ]

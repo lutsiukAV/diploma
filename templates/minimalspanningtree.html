@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
-{% block title %}Shortest path{% endblock %}
-{% block header %}Shortest path of graph{% endblock %}
+{% block title %}Minimal spanning tree{% endblock %}
+{% block header %}Minimal spanning tree{% endblock %}
 {% block central %}
 
     <div id="mygraph">
@@ -50,20 +50,8 @@
 
   </div>
 </div>
-    <form action="http://127.0.0.1:8000/shortestpathresult/" method="post" class="form-horizontal">
+    <form action="http://127.0.0.1:8000/mstresult/" method="post" class="form-horizontal">
         {% csrf_token %}
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="FROM">FROM</label>
-            <div class="col-sm-10">
-                <input class="form-control" type="number" name="FROM"required/>
-            </div>
-        </div>
-        <div class="form-group">
-        <label class="control-label col-sm-2" for="TO">TO</label>
-            <div class="col-sm-10">
-                <input type="number" name="TO" class="form-control" required/>
-            </div>
-        </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">Submit</button>
