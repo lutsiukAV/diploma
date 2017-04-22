@@ -69,3 +69,21 @@ def MSTresult(request):
     mst = minimum_spanning_tree(g, 'weight')
     gr = json.dumps(graph)
     return HttpResponse(render(request, 'mstresult.html', context={'graph': gr, 'mst': [list(elem) for elem in mst.edges()]}))
+
+def eulerianCurcuit(request):
+    return HttpResponse(render(request, 'euleriancircuit.html'))
+
+def ECresult(request):
+    graph = json.loads(request.POST['result'])
+    g = Graph()
+    for v in graph["vertices"]:
+        g.add_node(v)
+    for e in graph["edges"]:
+        g.add_edge(e["from"], e["to"])
+    if is_eulerian(g):
+            circuit = list(eulerian_circuit(g))
+            gr = json.dumps(graph)
+            return HttpResponse(render(request, 'euleriancurcuitresult.html', context={'graph': gr, 'circuit': [list(elem) for elem in circuit]}))
+    gr = json.dumps(graph)
+    lst = []
+    return HttpResponse(render(request, 'euleriancurcuitresult.html', context={'graph': gr,'circuit': [list(elem) for elem in lst] ,'message': "Non-eulerian"}))

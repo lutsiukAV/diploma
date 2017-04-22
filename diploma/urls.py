@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^shortestpathresult/',findShortestPath),
     url(r'^minimalspanningtree/',minimalSpanningTree),
     url(r'^mstresult/',MSTresult),
+    url(r'^euleriancurcuit/',eulerianCurcuit),
+    url(r'^ecresult/',ECresult),
 ]
