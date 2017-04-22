@@ -1,0 +1,103 @@
+{% extends 'layout.html' %}
+{% block title %}Isomorphic checkout{% endblock %}
+{% block header %}Isomorphic checkout{% endblock %}
+{% block central %}
+    <div class="row">
+        <div class="col-md-6">
+            <div id="mygraph1">
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div id="mygraph2">
+
+            </div>
+        </div>
+    </div>
+
+    <p align="center" class="message" style="font-family: Cochin, sans-serif;
+    font-size: medium;">{{ message }}</p>
+
+    <script>
+    var g1 = "{{ graph1 }}";
+    g1 = g1.replace(/&quot;/g, "\"");
+    var gr1 = JSON.parse(g1);
+
+
+
+    var vert1 = [];
+    for (var i = 0; i < gr1.vertices.length; i++) {
+        var v = gr1.vertices[i];
+
+        vert1.push({id: v, label: v.toString()});
+
+
+    }
+    var nodes1 = new vis.DataSet(
+        vert1
+    );
+
+    var ed1 = [];
+    for ( var i = 0; i < gr1.edges.length; i++) {
+        var edg = gr1.edges[i];
+        ed1.push({from: edg.from, to: edg.to});
+
+    }
+      // create an array with edges
+      var edges1 = new vis.DataSet(
+          ed1
+      );
+
+      // create a network
+      var container1 = document.getElementById('mygraph1');
+      var data1 = {
+        nodes: nodes1,
+        edges: edges1
+      };
+      var options = {
+          height: '400px'
+      };
+      var network1 = new vis.Network(container1, data1, options);
+
+
+      /////////////////////////////////////////////////////////////
+     var g2 = "{{ graph2 }}";
+    g2 = g2.replace(/&quot;/g, "\"");
+    var gr2 = JSON.parse(g2);
+
+
+
+    var vert2 = [];
+    for (var i = 0; i < gr2.vertices.length; i++) {
+        var v = gr2.vertices[i];
+
+        vert2.push({id: v, label: v.toString()});
+
+
+    }
+    var nodes2 = new vis.DataSet(
+        vert2
+    );
+
+    var ed2 = [];
+    for ( var i = 0; i < gr2.edges.length; i++) {
+        var edg = gr2.edges[i];
+        ed2.push({from: edg.from, to: edg.to});
+
+    }
+      // create an array with edges
+      var edges2 = new vis.DataSet(
+          ed2
+      );
+
+      // create a network
+      var container2 = document.getElementById('mygraph2');
+      var data2 = {
+        nodes: nodes2,
+        edges: edges2
+      };
+
+      var network2 = new vis.Network(container2, data2, options);
+    </script>
+{% endblock %}

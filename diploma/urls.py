@@ -30,4 +30,6 @@ urlpatterns = [
     url(r'^mstresult/',MSTresult),
     url(r'^euleriancurcuit/',eulerianCurcuit),
     url(r'^ecresult/',ECresult),
+    url(r'^isomorphic/',isomorphic),
+    url(r'^isomorphicresult/',isomorphicresult),
 ]

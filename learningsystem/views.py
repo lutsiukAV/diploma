@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from learningsystem.models import Profile
 import json
@@ -10,6 +11,7 @@ from networkx import *
 def layout(request):
     return HttpResponse(render(request, 'layout.html'))
 
+@login_required(login_url="/login/")
 def index(request):
     return HttpResponse(render(request, 'home.html'))
 
@@ -25,6 +27,8 @@ def signup(request):
         else:
             return HttpResponse(render(request, 'signup.html', context={'message': 'Your email has been already used!'}))
     else:
+        if not request.user.id is None:
+            return HttpResponse(render(request, 'home.html'))
         return HttpResponse(render(request, 'signup.html'))
 
 def home(request):
@@ -36,15 +40,20 @@ def home(request):
         else:
             return HttpResponse(render(request, 'login.html', context={'message': 'Fail to login!'}))
     else:
+        if not request.user.id is None:
+            return HttpResponse(render(request, 'home.html'))
         return HttpResponse(render(request, 'login.html'))
 
+@login_required(login_url="/login/")
 def out(request):
     logout(request)
     return HttpResponse(render(request,'login.html'))
 
+@login_required(login_url="/login/")
 def shortestPath(request):
     return HttpResponse(render(request, 'shortestpath.html'))
 
+@login_required(login_url="/login/")
 def findShortestPath(request):
     graph = json.loads(request.POST['result'])
     g = Graph()
@@ -56,9 +65,11 @@ def findShortestPath(request):
     gr = json.dumps(graph)
     return HttpResponse(render(request, "shortestpathresult.html", context={'graph': gr, 'path': path}))
 
+@login_required(login_url="/login/")
 def minimalSpanningTree(request):
     return HttpResponse(render(request,'minimalspanningtree.html'))
 
+@login_required(login_url="/login/")
 def MSTresult(request):
     graph = json.loads(request.POST['result'])
     g = Graph()
@@ -70,9 +81,11 @@ def MSTresult(request):
     gr = json.dumps(graph)
     return HttpResponse(render(request, 'mstresult.html', context={'graph': gr, 'mst': [list(elem) for elem in mst.edges()]}))
 
+@login_required(login_url="/login/")
 def eulerianCurcuit(request):
     return HttpResponse(render(request, 'euleriancircuit.html'))
 
+@login_required(login_url="/login/")
 def ECresult(request):
     graph = json.loads(request.POST['result'])
     g = Graph()
@@ -87,3 +100,31 @@ def ECresult(request):
     gr = json.dumps(graph)
     lst = []
     return HttpResponse(render(request, 'euleriancurcuitresult.html', context={'graph': gr,'circuit': [list(elem) for elem in lst] ,'message': "Non-eulerian"}))
+
+@login_required(login_url="/login/")
+def isomorphic(request):
+    return HttpResponse(render(request, "isomorphic.html"))
+
+@login_required(login_url="/login/")
+def isomorphicresult(request):
+    graph1 = json.loads(request.POST['result1'])
+    g1 = Graph()
+    for v in graph1["vertices"]:
+        g1.add_node(v)
+    for e in graph1["edges"]:
+        g1.add_edge(e["from"], e["to"])
+
+    graph2 = json.loads(request.POST['result2'])
+    g2 = Graph()
+    for v in graph2["vertices"]:
+        g2.add_node(v)
+    for e in graph2["edges"]:
+        g2.add_edge(e["from"], e["to"])
+
+    gr1 = json.dumps(graph1)
+    gr2 = json.dumps(graph2)
+
+    if is_isomorphic(g1, g2):
+        return HttpResponse(render(request, 'isomorphicresult.html', context={'graph1': gr1, 'graph2': gr2, 'message': "Isomorphic"}))
+
+    return HttpResponse(render(request, 'isomorphicresult.html', context={'graph1': gr1, 'graph2': gr2, 'message': "Non-isomorphic"}))
