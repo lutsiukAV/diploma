@@ -7,6 +7,8 @@ from learningsystem.models import Profile
 import json
 from networkx import *
 
+from learningsystem.tree.binary import BinaryTree
+
 # Create your views here.
 def layout(request):
     return HttpResponse(render(request, 'layout.html'))
@@ -128,3 +130,17 @@ def isomorphicresult(request):
         return HttpResponse(render(request, 'isomorphicresult.html', context={'graph1': gr1, 'graph2': gr2, 'message': "Isomorphic"}))
 
     return HttpResponse(render(request, 'isomorphicresult.html', context={'graph1': gr1, 'graph2': gr2, 'message': "Non-isomorphic"}))
+
+@login_required(login_url="/login/")
+def binaryTree(request):
+    return HttpResponse(render(request, 'binarytree.html'))
+
+@login_required(login_url="/login/")
+def bintreeHandler(request):
+    t = json.loads(request.POST['keys'])
+    T = BinaryTree()
+    for key in t:
+        T.insert(key)
+    tr = json.dumps(T.toTreantConfig())
+
+    return HttpResponse(render(request, 'bintreeresult.html', context={'tree': tr}))

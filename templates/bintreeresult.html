@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}Binary tree{% endblock %}
+{% block header %}Binary tree result{% endblock %}
+{% block central %}
+    <div id="tree-simple" style="width:100%; height: 400px"></div>
+
+    <script>
+
+        var tree = "{{ tree }}";
+        var tr = JSON.parse(tree.replace(/&quot;/g, "\""));
+        console.log(tr);
+
+        simple_chart_config = {
+            chart: {
+                container: "#tree-simple"
+            },
+            nodeStructure: tr
+        };
+        var my_chart = new Treant(simple_chart_config);
+    </script>
+{% endblock %}

@@ -32,4 +32,6 @@ urlpatterns = [
     url(r'^ecresult/',ECresult),
     url(r'^isomorphic/',isomorphic),
     url(r'^isomorphicresult/',isomorphicresult),
+    url(r'^binary/',binaryTree),
+    url(r'^bintreehandler/',bintreeHandler),
 ]
