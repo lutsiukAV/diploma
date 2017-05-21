@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^isomorphicresult/',isomorphicresult),
     url(r'^binary/',binaryTree),
     url(r'^bintreehandler/',bintreeHandler),
+    url(r'^avl/',avlTree),
+    url(r'^avlhandler/',avltreeHandler),
 ]

@@ -7,7 +7,7 @@ from learningsystem.models import Profile
 import json
 from networkx import *
 
-from learningsystem.tree.binary import BinaryTree
+from learningsystem.tree.binary import BinaryTree, AvlTree
 
 # Create your views here.
 def layout(request):
@@ -144,3 +144,18 @@ def bintreeHandler(request):
     tr = json.dumps(T.toTreantConfig())
 
     return HttpResponse(render(request, 'bintreeresult.html', context={'tree': tr}))
+
+
+@login_required(login_url="/login/")
+def avlTree(request):
+    return HttpResponse(render(request, 'avltree.html'))
+
+@login_required(login_url="/login/")
+def avltreeHandler(request):
+    t = json.loads(request.POST['keys'])
+    T = AvlTree()
+    for key in t:
+        T.insert(key)
+    tr = json.dumps(T.toTreantConfig())
+
+    return HttpResponse(render(request, 'avlresult.html', context={'tree': tr}))
