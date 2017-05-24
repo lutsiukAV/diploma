@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^bintreehandler/',bintreeHandler),
     url(r'^avl/',avlTree),
     url(r'^avlhandler/',avltreeHandler),
+    url(r'^truthtable/',truthTable),
+    url(r'^truthtableresult/',truthTableHandler),
 ]

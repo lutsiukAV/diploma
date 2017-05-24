@@ -132,6 +132,16 @@ def isomorphicresult(request):
     return HttpResponse(render(request, 'isomorphicresult.html', context={'graph1': gr1, 'graph2': gr2, 'message': "Non-isomorphic"}))
 
 @login_required(login_url="/login/")
+def truthTable(request):
+    return HttpResponse(render(request, 'truthtable.html'))
+
+@login_required(login_url="/login/")
+def truthTableHandler(request):
+    expression = request.POST['expr']
+    return HttpResponse(render(request, 'truthtableresult.html'))
+
+
+@login_required(login_url="/login/")
 def binaryTree(request):
     return HttpResponse(render(request, 'binarytree.html'))
 
