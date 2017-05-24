@@ -1,4 +1,3 @@
-
 def priority(op):
     if op == '(' or op == ')':
         return 0
@@ -10,6 +9,7 @@ def priority(op):
         return 2
     if op == '>':
         return 1
+
 
 def postfix(expression):
     operations = '~&|+>'
@@ -29,10 +29,11 @@ def postfix(expression):
             if len(stack) > 0 and priority(token) < priority(stack[-1]):
                 while len(stack) > 0 and priority(token) < priority(stack[-1]):
                     out.append(stack[-1])
-                    stack = stack[-1]
-                out.append(token)
+                    stack = stack[:-1]
+                stack.append(token)
             else:
                 stack.append(token)
     while len(stack) > 0:
         out.append(stack[-1])
         stack = stack[:-1]
+    return out
