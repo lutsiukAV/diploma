@@ -8,6 +8,7 @@ import json
 from networkx import *
 
 from learningsystem.tree.binary import BinaryTree, AvlTree
+from learningsystem.expression.expression import *
 
 # Create your views here.
 def layout(request):
@@ -138,7 +139,10 @@ def truthTable(request):
 @login_required(login_url="/login/")
 def truthTableHandler(request):
     expression = request.POST['expr']
-    return HttpResponse(render(request, 'truthtableresult.html'))
+    pstfx = postfix(expression)
+    g, v = generate(pstfx)
+    result = base(pstfx, g, v)
+    return HttpResponse(render(request, 'truthtableresult.html', context={'result': result}))
 
 
 @login_required(login_url="/login/")

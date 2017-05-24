@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'learningsystem',
     'networkx',
-    'learningsystem.tree'
+    'learningsystem.tree',
+    'learningsystem.expression'
 ]
 
 MIDDLEWARE = [
