@@ -165,3 +165,22 @@ def base(postfix, sets, var):
         res.append(input + subs(postfix, substitution))
     return res
 
+def tree(postfix):
+    stack = []
+    for token in postfix:
+        if token.isalpha():
+            stack.append(token)
+        else:
+            if token == '~':
+                op = stack[-1]
+                stack = stack[:-1]
+                stack.append([token, op])
+            else:
+                op2 = stack[-1]
+                stack = stack[:-1]
+                op1 = stack[-1]
+                stack = stack[:-1]
+                stack.append([token, op1, op2])
+    return stack[-1]
+
+

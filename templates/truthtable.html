@@ -1,22 +1,40 @@
 {% extends 'layout.html' %}
 {% block title %}Truth table{% endblock %}
 {% block header %}Truth table{% endblock %}
+{% block left %}
+    <h2 align="center">Explanation:</h2>
+    <ul style="list-style: none; background-color: lightgreen">Designations
+        <li>Implication: ></li>
+        <li>Not: ~</li>
+        <li>Xor: +</li>
+        <li>And: &</li>
+        <li>Or: |</li>
+    </ul>
+{% endblock %}
 {% block central %}
 
-    <form action="http://127.0.0.1:8000/truthtableresult/" method="post" class="form-horizontal">
+    <form action="/truthtableresult/" method="post" class="form-horizontal">
         {% csrf_token %}
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="expr">Expression:</label>
-                <div class="col-sm-10">
-        <input type="text" name="expr" placeholder="Enter your expression" class="form-control" required/><br>
-                </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="expr">Expression:</label>
+            <div class="col-sm-10">
+                <input type="text" name="expr" placeholder="Enter your expression" class="form-control" required/><br>
             </div>
+        </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-        <input type="submit" name="ok" value="ok" class="btn btn-primary"/>
-                </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="ok" value="ok" class="btn btn-primary btn-block"/>
             </div>
+        </div>
     </form>
 
+{% endblock %}
+{% block right %}
+    <h2 align="center">Extra sources:</h2>
+    <ul style="list-style: none; background-color: lightgreen">
+        <li><a href="https://en.wikipedia.org/wiki/Truth_table">Truth table</a></li>
+        <li><a href="https://www.tutorialspoint.com/computer_logical_organization/boolean_algebra.htm">Boolean
+            algebra</a></li>
+    </ul>
 {% endblock %}
