@@ -1,14 +1,14 @@
 def priority(op):
-    if op == '(' or op == ')':
-        return 0
-    if op == '~':
-        return 4
-    if op == '&':
-        return 3
-    if op == '|' or op == '+':
-        return 2
-    if op == '>':
-        return 1
+    ops = {
+        '(': 0,
+        ')': 0,
+        '>': 1,
+        '+': 2,
+        '|': 2,
+        '&': 3,
+        '~': 4
+    }
+    return ops[op]
 
 
 def postfix(expression):
@@ -39,29 +39,29 @@ def postfix(expression):
     return out
 
 
-def generate(pstfx):
-    vars = ""
-    for p in pstfx:
-        if p.isalpha() and not p in vars:
-            vars += p
-    totalvars = len(vars)
+def generate(postfix):
+    vars = ''
+    for token in postfix:
+        if token.isalpha() and not token in vars:
+            vars += token
+    vars_number = len(vars)
     sets = [()]
-    for i in range(totalvars):
+    for i in range(vars_number):
         step0 = []
         step1 = []
-        for s in sets:
+        for set in sets:
             step0 = [(0,) + elem for elem in sets]
             step1 = [(1,) + elem for elem in sets]
         sets = step0 + step1
     return sets, vars
 
 
-def calculate(pstfx, expression):
+def calculate(postfix, expression):
     res = []
     s_p = []
     s_e = []
-    for i in range(len(pstfx)):
-        t_p = pstfx[i]
+    for i in range(len(postfix)):
+        t_p = postfix[i]
         t_e = expression[i]
         if t_p.isalpha():
             s_p.append(t_p)
@@ -76,7 +76,7 @@ def calculate(pstfx, expression):
                 r_e = 1 - op_e
                 s_p.append(r_p)
                 s_e.append(r_e)
-                res.append((r_p, r_e))
+                res.append([r_p, r_e])
             elif t_p == '+':
                 op2_p = s_p[-1]
                 s_p = s_p[:-1]
@@ -92,7 +92,7 @@ def calculate(pstfx, expression):
                     r_e = 1
                 s_p.append(r_p)
                 s_e.append(r_e)
-                res.append((r_p, r_e))
+                res.append([r_p, r_e])
             elif t_p == '|':
                 op2_p = s_p[-1]
                 s_p = s_p[:-1]
@@ -108,7 +108,7 @@ def calculate(pstfx, expression):
                     r_e = 0
                 s_p.append(r_p)
                 s_e.append(r_e)
-                res.append((r_p, r_e))
+                res.append([r_p, r_e])
             elif t_p == '&':
                 op2_p = s_p[-1]
                 s_p = s_p[:-1]
@@ -124,7 +124,7 @@ def calculate(pstfx, expression):
                     r_e = 1
                 s_p.append(r_p)
                 s_e.append(r_e)
-                res.append((r_p, r_e))
+                res.append([r_p, r_e])
             elif t_p == '>':
                 op2_p = s_p[-1]
                 s_p = s_p[:-1]
@@ -140,24 +140,28 @@ def calculate(pstfx, expression):
                     r_e = 0
                 s_p.append(r_p)
                 s_e.append(r_e)
-                res.append((r_p, r_e))
+                res.append([r_p, r_e])
     return res
 
-def subs(pstfx, subst):
+
+def subs(postfix, st):
     res = []
-    for p in pstfx:
-        if p.isalpha():
-            res.append(subst[p])
+    for token in postfix:
+        if token.isalpha():
+            res.append(st[token])
         else:
-            res.append(p)
-    return calculate(pstfx, res)
-
-def base(pstfx, sets, vars):
-    for s in sets:
-        res = {}
-        for i in range(len(vars)):
-            res[vars[i]] = s[i]
-        subs(pstfx, res)
+            res.append(token)
+    return calculate(postfix, res)
 
 
+def base(postfix, sets, var):
+    res = []
+    for st in sets:
+        substitution = {}
+        input = []
+        for i in range(len(var)):
+            substitution[var[i]] = st[i]
+            input.append([var[i], st[i]])
+        res.append(input + subs(postfix, substitution))
+    return res
 

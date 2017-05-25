@@ -3,10 +3,21 @@
 {% block header %}Truth table{% endblock %}
 {% block central %}
     <table class="table table-hover">
-                <tbody>
-                    {% for r in result %}
-                        <tr class="success"></tr>
+    <thead>
+    <tr class="success">
+        {% for item in result.0%}
+            <td class="danger" style="border: 2px solid black;">{{item.0}}</td>
+        {% endfor %}
+    </tr>
+    </thead>
+        <tbody>
+        {% for item in result %}
+            <tr class="success">
+            {% for col in item %}
+                <td style="border: 2px solid black;">{{col.1}}</td>
                 {% endfor %}
-                </tbody>
-            </table>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
