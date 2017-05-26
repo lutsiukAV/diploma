@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block title %}Resolution method{% endblock %}
+{% block header %}Resolution method{% endblock %}
+{% block left %}
+    <h2 align="center">Explanation:</h2>
+    <ul style="list-style: none; background-color: lightgreen">Designations
+        <li>Implication: ></li>
+        <li>Not: ~</li>
+        <li>Or: |</li>
+    </ul>
+    <p>Separate every expression by comma</p>
+{% endblock %}
+{% block central %}
+
+    <form action="/resolutionresult/" method="post" class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="expr1">Expression:</label>
+                <input type="text" name="expr1" placeholder="Left" class="form-control" required/><br>
+
+        </div>
+
+        <div class="form-group">
+            <label for="expr2">|=</label>
+                <input type="text" name="expr2" placeholder="Right" class="form-control" required/><br>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="ok" value="Submit" class="btn btn-primary"/>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+{% block right %}
+    <h2 align="center">Extra sources:</h2>
+    <ul style="list-style: none; background-color: lightgreen">
+        <li><a href="https://en.wikipedia.org/wiki/Resolution_(logic)">Resolution method</a></li>
+        <li><a href="http://www.doc.ic.ac.uk/~sgc/teaching/pre2012/v231/lecture8.html">Resolution logic</a></li>
+    </ul>
+{% endblock %}

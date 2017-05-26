@@ -156,6 +156,18 @@ def sequentialHandler(request):
     result, tree, example = solve_seq(postfix(expr1), postfix(expr2))
     return HttpResponse(render(request, 'sequentialresult.html', context={'result': result, 'tree': tree, 'example': example}))
 
+@login_required(login_url="/login/")
+def resolution(request):
+    return HttpResponse(render(request, 'resolution.html'))
+
+@login_required(login_url="/login/")
+def resolutionHandler(request):
+    left = request.POST['expr1']
+    right = request.POST['expr2']
+    lparts = left.split(",")
+    rparts = right.split(",")
+    full_expression = lparts.append(rparts)
+
 
 @login_required(login_url="/login/")
 def binaryTree(request):

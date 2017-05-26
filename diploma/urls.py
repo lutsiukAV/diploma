@@ -40,4 +40,6 @@ urlpatterns = [
     url(r'^truthtableresult/',truthTableHandler),
     url(r'^sequential/',sequential),
     url(r'^sequentialresult/',sequentialHandler),
+    url(r'^resolution/',resolution),
+
 ]
