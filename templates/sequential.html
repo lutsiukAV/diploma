@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block title %}Sequential counting{% endblock %}
+{% block header %}Sequential counting{% endblock %}
+{% block left %}
+    <h2 align="center">Explanation:</h2>
+    <ul style="list-style: none; background-color: lightgreen">Designations
+        <li>Implication: ></li>
+        <li>Not: ~</li>
+        <li>Xor: +</li>
+        <li>And: &</li>
+        <li>Or: |</li>
+    </ul>
+{% endblock %}
+{% block central %}
+
+    <form action="/sequentialresult/" method="post" class="form-inline">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="expr1">Expression:</label>
+                <input type="text" name="expr1" placeholder="Left" class="form-control" required/><br>
+
+        </div>
+
+        <div class="form-group">
+            <label for="expr2">|=</label>
+                <input type="text" name="expr2" placeholder="Right" class="form-control" required/><br>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" name="ok" value="Submit" class="btn btn-primary"/>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+{% block right %}
+    <h2 align="center">Extra sources:</h2>
+    <ul style="list-style: none; background-color: lightgreen">
+        <li><a href="https://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Seq/diff.html">Logic and Foundations of Mathematics</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Sequential_logic">Sequential logic</a></li>
+    </ul>
+{% endblock %}

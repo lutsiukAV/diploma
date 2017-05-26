@@ -38,4 +38,6 @@ urlpatterns = [
     url(r'^avlhandler/',avltreeHandler),
     url(r'^truthtable/',truthTable),
     url(r'^truthtableresult/',truthTableHandler),
+    url(r'^sequential/',sequential),
+    url(r'^sequentialresult/',sequentialHandler),
 ]

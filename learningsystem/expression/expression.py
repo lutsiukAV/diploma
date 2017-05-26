@@ -165,6 +165,7 @@ def base(postfix, sets, var):
         res.append(input + subs(postfix, substitution))
     return res
 
+
 def tree(postfix):
     stack = []
     for token in postfix:
@@ -184,3 +185,68 @@ def tree(postfix):
     return stack[-1]
 
 
+def transform(sign, tree):
+    if type(tree) == type(''):
+        if sign == '|-':
+            return ['+' + tree], [sign, tree, []]
+        elif sign == '-|':
+            return ['-' + tree], [sign, tree, []]
+    elif type(tree) == type([]):
+        if tree[0] == '~':
+            if sign == '|-':
+                res, sub_expr = transform('-|', tree[1])
+                return res, [sign, '~' + sub_expr[1], [sub_expr]]
+            elif sign == '-|':
+                res, sub_expr = transform('|-', tree[1])
+                return res, [sign, '~' + sub_expr[1], [sub_expr]]
+        elif tree[0] == '|':
+            if sign == '|-':
+                res1, sub_expr1 = transform('|-', tree[1])
+                res2, sub_expr2 = transform('|-', tree[2])
+                return res1 + res2, [sign, sub_expr1[1] + '|' + sub_expr2[1], [sub_expr1, sub_expr2]]
+            elif sign == '-|':
+                res1, sub_expr1 = transform('-|', tree[1])
+                res2, sub_expr2 = transform('-|', tree[2])
+                return res1 + res2, [sign, sub_expr1[1] + '|' + sub_expr2[1], [sub_expr1, sub_expr2]]
+        elif tree[0] == '&':
+            if sign == '|-':
+                res1, sub_expr1 = transform('|-', tree[1])
+                res2, sub_expr2 = transform('|-', tree[2])
+                return res1 + res2, [sign, sub_expr1[1] + '&' + sub_expr2[1], [sub_expr1, sub_expr2]]
+            elif sign == '-|':
+                res1, sub_expr1 = transform('-|', tree[1])
+                res2, sub_expr2 = transform('-|', tree[2])
+                return res1 + res2, [sign, sub_expr1[1] + '&' + sub_expr2[1], [sub_expr1, sub_expr2]]
+        elif tree[0] == '>':
+            if sign == '|-':
+                res1, sub_expr1 = transform('-|', tree[1])
+                res2, sub_expr2 = transform('|-', tree[2])
+                return res1 + res2, [sign, sub_expr1[1] + '>' + sub_expr2[1], [sub_expr1, sub_expr2]]
+            elif sign == '-|':
+                res1, sub_expr1 = transform('|-', tree[1])
+                res2, sub_expr2 = transform('-|', tree[2])
+                return res1 + res2, [sign, sub_expr1[1] + '>' + sub_expr2[1], [sub_expr1, sub_expr2]]
+
+
+def solve_seq(left, right):
+    l, sl = transform('|-', tree(left))
+    r, sr = transform('-|', tree(right))
+    tr = ['-|', sl[1] + '>' + sr[1], [sl, sr]]
+    res = l + r
+    buckets = {}
+    for item in res:
+        key = item[1:]
+        try:
+            buckets[key].append(item[0])
+        except:
+            buckets[key] = [item[0]]
+    for key in buckets:
+        if '-' in buckets[key] and '+' in buckets[key]:
+            return True, tree, None
+    counter_example = []
+    for key in sorted(buckets):
+        if buckets[key][0] == '-':
+            counter_example.append([key, 0])
+        else:
+            counter_example.append([key, 1])
+    return False, tree, counter_example

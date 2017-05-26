@@ -146,8 +146,22 @@ def truthTableHandler(request):
 
 
 @login_required(login_url="/login/")
+def sequential(request):
+    return HttpResponse(render(request, 'sequential.html'))
+
+@login_required(login_url="/login/")
+def sequentialHandler(request):
+    expr1 = request.POST['expr1']
+    expr2 = request.POST['expr2']
+    result, tree, example = solve_seq(postfix(expr1), postfix(expr2))
+    return HttpResponse(render(request, 'sequentialresult.html', context={'result': result, 'tree': tree, 'example': example}))
+
+
+@login_required(login_url="/login/")
 def binaryTree(request):
     return HttpResponse(render(request, 'binarytree.html'))
+
+
 
 @login_required(login_url="/login/")
 def bintreeHandler(request):
