@@ -188,9 +188,9 @@ def tree(postfix):
 def transform(sign, tree):
     if type(tree) == type(''):
         if sign == '|-':
-            return ['+' + tree], [sign, tree, []]
+            return ['+' + tree], [sign, tree, [['+' + tree]]]
         elif sign == '-|':
-            return ['-' + tree], [sign, tree, []]
+            return ['-' + tree], [sign, tree, [['-' + tree]]]
     elif type(tree) == type([]):
         if tree[0] == '~':
             if sign == '|-':
@@ -242,11 +242,18 @@ def solve_seq(left, right):
             buckets[key] = [item[0]]
     for key in buckets:
         if '-' in buckets[key] and '+' in buckets[key]:
-            return True, tree, None
+            return True, tr, None
     counter_example = []
     for key in sorted(buckets):
         if buckets[key][0] == '-':
             counter_example.append([key, 0])
         else:
             counter_example.append([key, 1])
-    return False, tree, counter_example
+    return False, tr, counter_example
+
+
+def get_treant_config(tr):
+    if len(tr) == 1:
+        return {'text': {'name': tr[0]}}
+    else:
+        return {'text': {'name': tr[0] + ' ' + tr[1]}, 'children': [get_treant_config(elem) for elem in tr[2]]}

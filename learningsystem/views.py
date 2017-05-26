@@ -153,8 +153,9 @@ def sequential(request):
 def sequentialHandler(request):
     expr1 = request.POST['expr1']
     expr2 = request.POST['expr2']
-    result, tree, example = solve_seq(postfix(expr1), postfix(expr2))
-    return HttpResponse(render(request, 'sequentialresult.html', context={'result': result, 'tree': tree, 'example': example}))
+    result, t, example = solve_seq(postfix(expr1), postfix(expr2))
+    tr = json.dumps(get_treant_config(t))
+    return HttpResponse(render(request, 'sequentialresult.html', context={'result': result, 'tree': tr, 'example': example}))
 
 @login_required(login_url="/login/")
 def resolution(request):

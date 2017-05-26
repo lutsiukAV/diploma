@@ -23,7 +23,7 @@
     <script>
 
         var tree = "{{ tree }}";
-        var tr = JSON.parse(tree.replace(/&quot;/g, "\""));
+        var tr = JSON.parse(tree.replace(/&quot;/g, "\"").replace(/&amp;/g, "&").replace(/&gt;/g, ">"));
         console.log(tr);
 
         simple_chart_config = {
