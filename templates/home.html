@@ -1,3 +1,29 @@
 {% extends 'layout.html' %}
 {% block title %}Home{% endblock %}
-{% block header %}Main page{% endblock %}
+{% block header %}Welcome, to e-learning system{% endblock %}
+{% block right %}
+{% endblock %}
+{% block central %}
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <div style="border-bottom: 4px solid green">
+                <h3>Start use Web-tutor, check you knowledge and get new!</h3>
+                    </div>
+                <ul style="margin-top: 30px; background-color: lightgreen; ">
+                    <li>Solve graph tasks</li>
+                    <li>Build different types of trees</li>
+                    <li>Test your knowledge of math logic</li>
+                </ul>
+                <button class="btn btn-block btn-success" href="/shortest" style="margin-top: 60px;">Start</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div><img src="http://lms.coloris.com.ua/img/header_bg.jpg" alt="pic" style="width: 400px; height: 277px;"></div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block left %}
+{% endblock %}
