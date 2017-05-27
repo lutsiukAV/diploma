@@ -270,6 +270,7 @@ def isOposite(v1, v2):
 def combination(expressions):
     variables = [elem.split("|") for elem in expressions]
     prev = []
+    steps = []
     curr = variables
     next = curr
     while prev != curr:
@@ -279,9 +280,10 @@ def combination(expressions):
                     new = merge(curr[i], curr[j])
                     if not new in next:
                         next.append(merge(curr[i], curr[j]))
+                    steps.append(next[:])
         prev = curr
         curr = next
-    return curr
+    return curr, steps[:-1]
 
 
 def is_contain_oposites(a, b):
@@ -310,3 +312,13 @@ def merge(a, b):
         new_a = [key for key in marked_a if not marked_a[key]]
         new_b = [key for key in marked_b if not marked_b[key]]
         return merge(new_a, new_b)
+
+
+def to_config(steps):
+    prev = []
+    for i in steps[::-1]:
+        struct = {'text': {'name': str(i).replace("\'", '')}}
+        if len(prev) > 0:
+            struct['children'] = [prev]
+        prev = struct
+    return prev

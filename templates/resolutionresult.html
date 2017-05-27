@@ -2,6 +2,28 @@
 {% block title %}Sequential result{% endblock %}
 {% block header %}Sequential result{% endblock %}
 {% block central %}
-    <p>{{ initial }}</p>
+    <table class="table table-hover">
+    <tbody>
+    <tr class="success">
+        <td style="border: 2px solid black">Initial expression</td>
+        <td style="border: 2px solid black">{{ initial }}</td>
+    </tr>
+    </tbody>
+    </table>
     <p>{{ result }}</p>
+    <p>{{ steps }}</p>
+    <div id="tree-simple" style="width:100%; height: 400px"></div>
+    <script>
+    var st =  "{{ steps }}"
+    console.log(st)
+    var step = JSON.parse(st.replace(/&quot;/g, "\"").replace(/&amp;/g, "&").replace(/&gt;/g, ">").replace(/&#39;/g,"'"));
+    console.log(step)
+    simple_chart_config = {
+            chart: {
+                container: "#tree-simple"
+            },
+            nodeStructure: step
+        };
+        var my_chart = new Treant(simple_chart_config);
+    </script>
 {% endblock %}

@@ -171,8 +171,9 @@ def resolutionHandler(request):
     rparts = [i.replace("~~","").replace(">", "|") for i in rparts]
     full_expression = lparts + rparts
     full_expression = [i.replace(" ", "") for i in full_expression]
-    result = combination(full_expression)
-    return HttpResponse(render(request, 'resolutionresult.html', context={'initial': full_expression,'result': result}))
+    result, steps = combination(full_expression)
+    stp = json.dumps(to_config(steps))
+    return HttpResponse(render(request, 'resolutionresult.html', context={'initial': full_expression,'result': result, 'steps': stp}))
 
 
 @login_required(login_url="/login/")
