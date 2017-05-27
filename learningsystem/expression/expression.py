@@ -257,3 +257,56 @@ def get_treant_config(tr):
         return {'text': {'name': tr[0]}}
     else:
         return {'text': {'name': tr[0] + ' ' + tr[1]}, 'children': [get_treant_config(elem) for elem in tr[2]]}
+
+
+def isOposite(v1, v2):
+    if v1.find("~") == -1 and v2.find("~") > -1 and v1[0] == v2[1]:
+        return True
+    if v1.find("~") > -1 and v2.find("~") == -1 and v1[1] == v2[0]:
+        return True
+    return False
+
+
+def combination(expressions):
+    variables = [elem.split("|") for elem in expressions]
+    prev = []
+    curr = variables
+    next = curr
+    while prev != curr:
+        for i in range(len(curr)):
+            for j in range(i + 1, len(curr)):
+                if is_contain_oposites(curr[i], curr[j]):
+                    new = merge(curr[i], curr[j])
+                    if not new in next:
+                        next.append(merge(curr[i], curr[j]))
+        prev = curr
+        curr = next
+    return curr
+
+
+def is_contain_oposites(a, b):
+    for i in a:
+        for j in b:
+            if isOposite(i, j):
+                return True
+    return False
+
+
+def merge(a, b):
+    if not is_contain_oposites(a, b):
+        result = a
+        for item in b:
+            if not item in a:
+                result.append(item)
+        return result
+    else:
+        marked_a = {elem: False for elem in a}
+        marked_b = {elem: False for elem in b}
+        for i in a:
+            for j in b:
+                if isOposite(i, j):
+                    marked_a[i] = True
+                    marked_b[j] = True
+        new_a = [key for key in marked_a if not marked_a[key]]
+        new_b = [key for key in marked_b if not marked_b[key]]
+        return merge(new_a, new_b)

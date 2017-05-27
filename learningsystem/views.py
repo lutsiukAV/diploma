@@ -167,7 +167,12 @@ def resolutionHandler(request):
     right = request.POST['expr2']
     lparts = left.split(",")
     rparts = right.split(",")
-    full_expression = lparts.append(rparts)
+    lparts = [i.replace(">", "|") for i in lparts]
+    rparts = [i.replace("~~","").replace(">", "|") for i in rparts]
+    full_expression = lparts + rparts
+    full_expression = [i.replace(" ", "") for i in full_expression]
+    result = combination(full_expression)
+    return HttpResponse(render(request, 'resolutionresult.html', context={'initial': full_expression,'result': result}))
 
 
 @login_required(login_url="/login/")
