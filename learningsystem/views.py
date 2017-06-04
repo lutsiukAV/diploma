@@ -8,6 +8,7 @@ import json
 from networkx import *
 
 from learningsystem.tree.binary import BinaryTree, AvlTree
+from learningsystem.tree.btree import BTree
 from learningsystem.expression.expression import *
 
 # Create your views here.
@@ -206,3 +207,17 @@ def avltreeHandler(request):
     tr = json.dumps(T.toTreantConfig())
 
     return HttpResponse(render(request, 'avlresult.html', context={'tree': tr}))
+
+@login_required(login_url="/login/")
+def bTree(request):
+    return HttpResponse(render(request, 'btree.html'))
+
+@login_required(login_url="/login/")
+def bTreeHandler(request):
+    t = map(int, json.loads(request.POST['keys']))
+    p = int(request.POST['param'])
+    T = BTree(p)
+    for key in t:
+        T.insert(key)
+    tr = json.dumps(T.to_config())
+    return HttpResponse(render(request, 'btreeresult.html', context={'tree': tr}))

@@ -42,5 +42,6 @@ urlpatterns = [
     url(r'^sequentialresult/',sequentialHandler),
     url(r'^resolution/',resolution),
     url(r'^resolutionresult/',resolutionHandler),
-
+    url(r'^btree/',bTree),
+    url(r'^btreehandler',bTreeHandler)
 ]
