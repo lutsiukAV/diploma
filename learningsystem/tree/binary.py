@@ -189,8 +189,58 @@ class RBNode(BinaryNode):
 
 class RBHandler:
     @classmethod
-    def insert(cls, key):
-        pass
+    def insert(cls, root, key):
+        if key < root.key:
+            if root.left is None:
+                root.left = RBNode(key)
+                if root.color == Color.BLACK:
+                    return root, False, False, False
+                else:
+                    return root, True, False, False
+            else:
+                root.left, to_paint, to_check, is_right = cls.insert(root.left, key)
+                if to_paint and root.right.color == Color.RED:
+                    root.left.color = Color.BLACK
+                    root.right.color = Color.BLACK
+                    root.color = Color.RED
+                    return root, False, True, False
+                elif to_paint and root.right.color == Color.BLACK:
+                    root.left.color = Color.BLACK
+                    root.color = Color.RED
+                    if is_right:
+                        root.left = RBNode(root.left.right.key, RBNode(root.left.key, root.left.left, root.left.right.left), root.left.right.right)
+                    root = RBNode(root.left.key, root.left.left, RBNode(root.key, root.left.right, root.right))
+                    return root, False, False, False
+                elif to_check and root.color == Color.BLACK:
+                    return root, False, False, False
+                elif to_check and root.color == Color.RED:
+                    return root, True, False, False
+        elif key > root.key:
+            if root.right is None:
+                root.right = RBNode(key)
+                if root.color == Color.BLACK:
+                    return root, False, False, True
+                else:
+                    return root, True, False, True
+            else:
+                root.right, to_paint, to_check, is_right = cls.insert(root.right, key)
+                if to_paint and root.left.color == Color.RED:
+                    root.left.color = Color.BLACK
+                    root.right.color = Color.BLACK
+                    root.color = Color.RED
+                    return root, False, True, True
+                elif to_paint and root.left.color == Color.BLACK:
+                    root.right.color = Color.BLACK
+                    root.color = Color.RED
+                    if not is_right:
+                        root.right = RBNode(root.right.left.key, root.right.left.left, RBNode(root.right.key, root.right.left.right, root.right.right))
+                    root = RBNode(root.right.key, RBNode(root.key, root.left, root.right.left), root.right.right)
+                    return root, False, False, True
+                elif to_check and root.color == Color.BLACK:
+                    return root, False, False, True
+                elif to_check and root.color == Color.RED:
+                    return root, True, False, True
+
 
 class RBTree:
     def __init__(self):
@@ -200,7 +250,7 @@ class RBTree:
         if self.root is None:
             self.root = RBNode(key, color=Color.BLACK)
         else:
-            self.root = RBHandler.insert(key)
+            self.root, to_paint, to_check, is_right = RBHandler.insert(self.root, key)
 
 
 
