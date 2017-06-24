@@ -187,9 +187,11 @@ def binaryTree(request):
 def bintreeHandler(request):
     t = json.loads(request.POST['keys'])
     T = BinaryTree()
+    trees = []
     for key in t:
-        T.insert(key)
-    tr = json.dumps(T.toTreantConfig())
+        T.insert(int(key))
+        trees.append(T.toTreantConfig())
+    tr = json.dumps(trees)
 
     return HttpResponse(render(request, 'bintreeresult.html', context={'tree': tr}))
 
@@ -202,9 +204,11 @@ def avlTree(request):
 def avltreeHandler(request):
     t = json.loads(request.POST['keys'])
     T = AvlTree()
+    trees = []
     for key in t:
-        T.insert(key)
-    tr = json.dumps(T.toTreantConfig())
+        T.insert(int(key))
+        trees.append(T.toTreantConfig())
+    tr = json.dumps(trees)
 
     return HttpResponse(render(request, 'avlresult.html', context={'tree': tr}))
 
@@ -217,7 +221,9 @@ def bTreeHandler(request):
     t = map(int, json.loads(request.POST['keys']))
     p = int(request.POST['param'])
     T = BTree(p)
+    trees = []
     for key in t:
-        T.insert(key)
-    tr = json.dumps(T.to_config())
+        T.insert(int(key))
+        trees.append(T.to_config())
+    tr = json.dumps(trees)
     return HttpResponse(render(request, 'btreeresult.html', context={'tree': tr}))

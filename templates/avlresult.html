@@ -2,20 +2,72 @@
 {% block title %}AVL tree{% endblock %}
 {% block header %}AVL tree result{% endblock %}
 {% block central %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1 col-md-offset-5">
+                <button class="btn btn-primary" id="prev" style="visibility: hidden">Prev</button>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary" id="next">Next</button>
+            </div>
+        </div>
     <div id="tree-simple" style="width:100%; height: 400px"></div>
+    </div>
 
     <script>
-
+        var cur = 0;
         var tree = "{{ tree }}";
         var tr = JSON.parse(tree.replace(/&quot;/g, "\""));
         console.log(tr);
-
         simple_chart_config = {
             chart: {
                 container: "#tree-simple"
             },
-            nodeStructure: tr
+            nodeStructure: tr[cur]
         };
+
+        if(tr.length === 1){
+            $("#next").css("visibility", "hidden");
+        }
         var my_chart = new Treant(simple_chart_config);
+        $("#prev").click(function () {
+            if(cur > 0){
+                cur -= 1;
+                if(cur === 0){
+                    $("#prev").css("visibility", "hidden")
+                }
+                if(cur === tr.length - 2){
+                    $("#next").css("visibility", "visible");
+                }
+                simple_chart_config = {
+            chart: {
+                container: "#tree-simple"
+            },
+            nodeStructure: tr[cur]
+        };
+                $("#tree-simple").empty();
+                var my_chart = new Treant(simple_chart_config);
+            }
+        });
+
+        $("#next").click(function () {
+            if(cur < tr.length - 1){
+                cur += 1;
+                if(cur === 1){
+                    $("#prev").css("visibility", "visible")
+                }
+                if(cur === tr.length - 1){
+                    $("#next").css("visibility", "hidden")
+                }
+                simple_chart_config = {
+            chart: {
+                container: "#tree-simple"
+            },
+            nodeStructure: tr[cur]
+        };
+                $("#tree-simple").empty();
+                var my_chart = new Treant(simple_chart_config);
+            }
+        });
     </script>
 {% endblock %}

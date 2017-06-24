@@ -1,3 +1,9 @@
+from enum import Enum
+
+class Color(Enum):
+    RED = 0
+    BLACK = 1
+
 class BinaryNode:
     def __init__(self, key, left=None, right=None):
         self.key = key
@@ -173,4 +179,28 @@ class AvlTree:
             self.root = AvlNode(key)
         else:
             self.root = AvlHandler.insert(self.root, key)
+
+
+class RBNode(BinaryNode):
+    def __init__(self, key, left=None, right=None, color = Color.RED):
+        super(RBNode, self).__init__(key, left, right)
+        self.color = color
+
+
+class RBHandler:
+    @classmethod
+    def insert(cls, key):
+        pass
+
+class RBTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        if self.root is None:
+            self.root = RBNode(key, color=Color.BLACK)
+        else:
+            self.root = RBHandler.insert(key)
+
+
 
