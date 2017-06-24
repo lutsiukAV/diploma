@@ -7,7 +7,7 @@ from learningsystem.models import Profile
 import json
 from networkx import *
 
-from learningsystem.tree.binary import BinaryTree, AvlTree
+from learningsystem.tree.binary import BinaryTree, AvlTree, RBTree
 from learningsystem.tree.btree import BTree
 from learningsystem.expression.expression import *
 
@@ -227,3 +227,19 @@ def bTreeHandler(request):
         trees.append(T.to_config())
     tr = json.dumps(trees)
     return HttpResponse(render(request, 'btreeresult.html', context={'tree': tr}))
+
+
+@login_required(login_url="/login/")
+def rbtree(request):
+    return HttpResponse(render(request, 'rbtree.html'))
+
+@login_required(login_url="/login/")
+def rbHandler(request):
+    t = json.loads(request.POST['keys'])
+    T = RBTree()
+    trees = []
+    for key in t:
+        T.insert(int(key))
+        trees.append(T.toTreantConfig())
+    tr = json.dumps(trees)
+    return HttpResponse(render(request, 'rbresult.html', context={'tree': tr}))

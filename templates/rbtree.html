@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block title %}RB tree{% endblock %}
+{% block header %}RB tree building{% endblock %}
+{% block central %}
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add edge</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="key">Next key</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="number" name="key" id="key" required/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="adder" class="btn btn-default" data-dismiss="modal">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <table class="table table-hover">
+                <thead>
+                <tr class="success">
+                    <td>ID</td>
+                    <td>Value</td>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal">Add key</button> <br>
+            <form action="http://127.0.0.1:8000/rbhandler/" method="post">
+            {% csrf_token %}
+                <input type="text" name="keys" id="res" value="[]" hidden>
+                <input type="submit" value="OK" class="btn btn-primary btn-block">
+            </form>
+
+            <script>
+                $("#adder").click(function () {
+                    var keys = JSON.parse($("#res").val());
+                    var k = $("#key").val();
+                    keys.push(k);
+                    $("#res").val(JSON.stringify(keys));
+                    $("tbody").append("<tr class=\"info\"><td>"+keys.length.toString() + "</td><td>" + k.toString() + "</td></tr>");
+                });
+            </script>
+{% endblock %}
